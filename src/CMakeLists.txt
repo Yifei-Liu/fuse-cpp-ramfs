@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.2)
+project(fuse-cpp-ramfs)
 add_executable(fuse-cpp-ramfs main.cpp directory.cpp inode.cpp symlink.cpp file.cpp util.cpp fuse_cpp_ramfs.cpp special_inode.cpp)
 set_property(TARGET fuse-cpp-ramfs PROPERTY CXX_STANDARD 17)
 target_compile_definitions(fuse-cpp-ramfs PRIVATE FUSE_USE_VERSION=30 _FILE_OFFSET_BITS=64)
@@ -8,4 +9,7 @@ elseif(UNIX) # Linux, BSD etc
   target_link_libraries(fuse-cpp-ramfs fuse)
 endif()
 target_link_libraries(fuse-cpp-ramfs pthread)
+TARGET_LINK_LIBRARIES(fuse-cpp-ramfs ${Boost_LIBRARIES} rt)
+include_directories(/opt/open_glibc2.32/include)
+SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -L /opt/open_glibc2.32/lib -Wl,--rpath=/opt/open_glibc2.32/lib:/usr/lib:/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu:/usr/local/lib -Wl,--dynamic-linker=/opt/open_glibc2.32/lib/ld-linux-x86-64.so.2")
 install(TARGETS fuse-cpp-ramfs DESTINATION bin)

@@ -31,6 +31,17 @@ void delete_args(int argc, char **argv) {
  * @param argv A pointer to the first argument.
  * @return The exit code of the program. Zero on success. */
 int main(int argc, const char * argv[]) {
+    char size_env[] = "HEAPSIZE=2097152";
+    putenv(size_env);
+
+    size_t ret_myheap_size;
+    ret_myheap_size = get_myheap_size();
+    cout << "returned myheap_size: " << ret_myheap_size << endl;
+
+    void* ret_myheap_base;
+    ret_myheap_base = get_myheap_base();
+    cout << "returned myheap_base: " << ret_myheap_base << endl;
+
     char **fuse_argv = copy_args(argc, argv);
     
     struct fuse_args args = {argc, fuse_argv, 1};
